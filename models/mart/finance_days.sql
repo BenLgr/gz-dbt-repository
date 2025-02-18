@@ -1,6 +1,6 @@
 select
     date_date
-    ,COUNT(orders_id) as nb_ob_orders
+    ,COUNT(orders_id) as nb_of_orders
     ,SUM(revenue) as tot_revenue
     ,SUM(revenue) / COUNT(orders_id) as avg_basket
     ,SUM(operational_margin) as operational_margin

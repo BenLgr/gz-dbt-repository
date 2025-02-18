@@ -51,15 +51,37 @@ models:
          tests:
            - unique
            - not_null
+       - name: date_date
+         description: date of order
+       - name: revenue
+         description: total revenue per order
+       - name: quantity
+         description: total quantity per order
+       - name: purchase_cost
+         description: total purchase cost per order
+       - name: margin
+         description: revenue - purchase_cost per order
                
    - name: int_orders_operational
-     description: Join `int_orders_margin` and `ship` to gather operational cost and calculate 'operational_margin'
+     description: Joinned `int_orders_margin` and `ship` to gather operational cost and calculate 'operational_margin'
      columns:
        - name: orders_id
          description: primary key
          tests:
            - unique
            - not_null
+       - name: date_date
+         description: date of order
+       - name: revenue
+         description: total revenue per order
+       - name: quantity
+         description: total quantity per order
+       - name: purchase_cost
+         description: total purchase cost per order
+       - name: margin
+         description: revenue - purchase_cost per order
+       - name: operational_margin
+         description: revenue + shipping_fee - shipping_cost - log_cost  per order
 
    - name: finance_days
      description: Shows results aggregated per date for daily finance kpi
@@ -69,3 +91,13 @@ models:
          tests:
            - unique
            - not_null
+       - name: nb_of_orders
+         description: count of orders id in the day
+       - name: tot_revenue
+         description: Total revenue per day
+       - name: avg_basket
+         description: Avereage Basket per day
+       - name: operational margin
+         description: Operational Margin per the day
+       - name: tot_quantity
+         description: Total quantity of products sold per day
