@@ -1,7 +1,7 @@
 with  nb_products_in_parcel as(
     select 
         parcel_id
-        ,SUM(quantity) AS quantity
+        ,SUM(quantity) AS quantity_in_parcel
         ,COUNT(DISTINCT model_mame) AS nb_products
     from {{ ref('stg_circle__parcel_product') }}
     group by parcel_id
