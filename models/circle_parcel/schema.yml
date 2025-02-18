@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: circle
+    schema: raw_data_circle
+    tables:
+      - name: parcel
+        identifier: raw_cc_parcel
+        description: parcel of Circle
+        columns:
+        - name: parcel_id
+          description: primary key for this table (Integer ID of parcel)
+          tests:
+          - unique
+          - not_null
+
+      - name: parcel_product 
+        identifier: raw_cc_parcel_product 
+        description: parcel_product of Circle
+        tests:
+          - unique:
+              column_name: "ParCEL_id || '-' || Model_mAME"
+          - not_null:
+              column_name: "ParCEL_id || '-' || Model_mAME"
+        columns:
+        - name: parcel_id
+          description: primary key for this table (Integer ID of parcel)
