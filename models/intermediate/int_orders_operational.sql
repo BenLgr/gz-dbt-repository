@@ -4,5 +4,5 @@ select
 from {{ ref('int_orders_margin') }} as om
 join {{ ref('stg_raw__ship') }} as s
 using (orders_id)
-where orders_id in (1002561,1002560,1002559) --used for comparing results
+--where orders_id in (1002561,1002560,1002559) --used for comparing results
 order by orders_id
