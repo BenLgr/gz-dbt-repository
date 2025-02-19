@@ -11,7 +11,7 @@ renamed as (
     select
         date_date,
         paid_source,
-        cast (campaign_key as INT) as campaign_key,
+        campaign_key,
         campgn_name as campaign_name,
         cast (ads_cost as FLOAT64) as ads_cost,
         impression,

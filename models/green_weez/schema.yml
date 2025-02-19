@@ -105,61 +105,70 @@ sources:
           description: cost of the daily campaign
 
 models:
-   - name: int_orders_margin
-     description: Join `product` and `sales` with orders_id to display 'revenue' and 'margin' per orders
-     columns:
-       - name: orders_id
-         description: primary key
-         tests:
-           - unique
-           - not_null
-       - name: date_date
-         description: date of order
-       - name: revenue
-         description: total revenue per order
-       - name: quantity
-         description: total quantity per order
-       - name: purchase_cost
-         description: total purchase cost per order
-       - name: margin
-         description: revenue - purchase_cost per order
-               
-   - name: int_orders_operational
-     description: Joinned `int_orders_margin` and `ship` to gather operational cost and calculate 'operational_margin'
-     columns:
-       - name: orders_id
-         description: primary key
-         tests:
-           - unique
-           - not_null
-       - name: date_date
-         description: date of order
-       - name: revenue
-         description: total revenue per order
-       - name: quantity
-         description: total quantity per order
-       - name: purchase_cost
-         description: total purchase cost per order
-       - name: margin
-         description: revenue - purchase_cost per order
-       - name: operational_margin
-         description: revenue + shipping_fee - shipping_cost - log_cost  per order
+  - name: int_campaign_day
+    description: union of all campaign group by date 
+    columns:
+      - name: date_date
+        description: primary key
+        tests:
+          - unique
+          - not_null
 
-   - name: finance_days
-     description: Shows results aggregated per date for daily finance kpi
-     columns:
-       - name: date_date
-         description: primary key
-         tests:
-           - unique
-           - not_null
-       - name: nb_of_orders
-         description: count of orders id in the day
-       - name: tot_revenue
-         description: Total revenue per day
-       - name: avg_basket
-         description: Avereage Basket per day
-       - name: operational margin
-         description: Operational Margin per the day
-       - name: tot_quantity
-         description: Total quantity of products sold per day
+  - name: int_orders_margin
+    description: Join `product` and `sales` with orders_id to display 'revenue' and 'margin' per orders
+    columns:
+      - name: orders_id
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of order
+      - name: revenue
+        description: total revenue per order
+      - name: quantity
+        description: total quantity per order
+      - name: purchase_cost
+        description: total purchase cost per order
+      - name: margin
+        description: revenue - purchase_cost per order
+              
+  - name: int_orders_operational
+    description: Joinned `int_orders_margin` and `ship` to gather operational cost and calculate 'operational_margin'
+    columns:
+      - name: orders_id
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of order
+      - name: revenue
+        description: total revenue per order
+      - name: quantity
+        description: total quantity per order
+      - name: purchase_cost
+        description: total purchase cost per order
+      - name: margin
+        description: revenue - purchase_cost per order
+      - name: operational_margin
+        description: revenue + shipping_fee - shipping_cost - log_cost  per order
+
+  - name: finance_days
+    description: Shows results aggregated per date for daily finance kpi
+    columns:
+      - name: date_date
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: nb_of_orders
+        description: count of orders id in the day
+      - name: tot_revenue
+        description: Total revenue per day
+      - name: avg_basket
+        description: Avereage Basket per day
+      - name: operational margin
+        description: Operational Margin per the day
+      - name: tot_quantity
+        description: Total quantity of products sold per day
