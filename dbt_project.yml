@@ -36,10 +36,16 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  green_weez:
-    +schema: gz_raw_data
-    intermediate:
-    mart:
-  circle:
-    +schema: parcel_dbt_dev
-    circle:
+  my_new_project:
+    green_weez:
+      +schema: gz_raw_data
+      staging:
+        +materialized: view
+      intermediate:
+        +materialized: view
+      mart:
+        +materialized: view
+    circle_parcel:
+      +schema: parcel_dbt_dev
+      staging:
+        +materialized: view
