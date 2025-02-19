@@ -13,4 +13,5 @@ with tab as (
 select 
     *
     ,revenue - purchase_cost as margin 
+    ,{{ margin_percent('revenue', 'purchase_cost') }} AS margin_percent
 from tab
