@@ -3,18 +3,17 @@ version: 2
 sources:
   - name: raw
     schema: gz_raw_data
+
     tables:
       - name: sales
         identifier: raw_sales
         description: sales of Greenweez / we have one row per 'products_id' found in each 'orders_id'
-
         # Freshness testing - make sure to fill in the ...
         freshness:
           warn_after: 
             count: 90
             period: day
         loaded_at_field: CAST(date_date AS TIMESTAMP)
-
         tests:
           - unique:
               column_name: "orders_id || '-' || pdt_id"
@@ -41,63 +40,135 @@ sources:
             - unique
             - not_null
 
+      - name: cpg_adwords
+        identifier: raw_gz_adwords
+        description: Greenweez campaign / adwords
+        tests:
+          - unique:
+              column_name: "date_date || '-' || campaign_key"
+          - not_null:
+              column_name: "date_date || '-' || campaign_key"
+        columns:
+        - name: paid_source
+          description: source of campaign
+        - name: campaign_key
+          description: campaign_key
+        - name: ads_cost
+          description: cost of the daily campaign
+
+      - name: cpg_bing
+        identifier: raw_gz_bing
+        description: Greenweez campaign / bing
+        tests:
+          - unique:
+              column_name: "date_date || '-' || campaign_key"
+          - not_null:
+              column_name: "date_date || '-' || campaign_key"
+        columns:
+        - name: paid_source
+          description: source of campaign
+        - name: campaign_key
+          description: campaign_key
+        - name: ads_cost
+          description: cost of the daily campaign
+
+      - name: cpg_criteo
+        identifier: raw_gz_criteo
+        description: Greenweez campaign / criteo
+        tests:
+          - unique:
+              column_name: "date_date || '-' || campaign_key"
+          - not_null:
+              column_name: "date_date || '-' || campaign_key"
+        columns:
+        - name: paid_source
+          description: source of campaign
+        - name: campaign_key
+          description: campaign_key
+        - name: ads_cost
+          description: cost of the daily campaign
+    
+      - name: cpg_facebook
+        identifier: raw_gz_facebook
+        description: Greenweez campaign / facebook
+        tests:
+          - unique:
+              column_name: "date_date || '-' || campaign_key"
+          - not_null:
+              column_name: "date_date || '-' || campaign_key"
+        columns:
+        - name: paid_source
+          description: source of campaign
+        - name: campaign_key
+          description: campaign_key
+        - name: ads_cost
+          description: cost of the daily campaign
 
 models:
-   - name: int_orders_margin
-     description: Join `product` and `sales` with orders_id to display 'revenue' and 'margin' per orders
-     columns:
-       - name: orders_id
-         description: primary key
-         tests:
-           - unique
-           - not_null
-       - name: date_date
-         description: date of order
-       - name: revenue
-         description: total revenue per order
-       - name: quantity
-         description: total quantity per order
-       - name: purchase_cost
-         description: total purchase cost per order
-       - name: margin
-         description: revenue - purchase_cost per order
-               
-   - name: int_orders_operational
-     description: Joinned `int_orders_margin` and `ship` to gather operational cost and calculate 'operational_margin'
-     columns:
-       - name: orders_id
-         description: primary key
-         tests:
-           - unique
-           - not_null
-       - name: date_date
-         description: date of order
-       - name: revenue
-         description: total revenue per order
-       - name: quantity
-         description: total quantity per order
-       - name: purchase_cost
-         description: total purchase cost per order
-       - name: margin
-         description: revenue - purchase_cost per order
-       - name: operational_margin
-         description: revenue + shipping_fee - shipping_cost - log_cost  per order
+  - name: int_campaign_day
+    description: union of all campaign group by date 
+    columns:
+      - name: date_date
+        description: primary key
+        tests:
+          - unique
+          - not_null
 
-   - name: finance_days
-     description: Shows results aggregated per date for daily finance kpi
-     columns:
-       - name: date_date
-         description: primary key
-         tests:
-           - unique
-           - not_null
-       - name: nb_of_orders
-         description: count of orders id in the day
-       - name: tot_revenue
-         description: Total revenue per day
-       - name: avg_basket
-         description: Avereage Basket per day
-       - name: operational margin
-         description: Operational Margin per the day
-       - name: tot_quantity
-         description: Total quantity of products sold per day
+  - name: int_orders_margin
+    description: Join `product` and `sales` with orders_id to display 'revenue' and 'margin' per orders
+    columns:
+      - name: orders_id
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of order
+      - name: revenue
+        description: total revenue per order
+      - name: quantity
+        description: total quantity per order
+      - name: purchase_cost
+        description: total purchase cost per order
+      - name: margin
+        description: revenue - purchase_cost per order
+              
+  - name: int_orders_operational
+    description: Joinned `int_orders_margin` and `ship` to gather operational cost and calculate 'operational_margin'
+    columns:
+      - name: orders_id
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of order
+      - name: revenue
+        description: total revenue per order
+      - name: quantity
+        description: total quantity per order
+      - name: purchase_cost
+        description: total purchase cost per order
+      - name: margin
+        description: revenue - purchase_cost per order
+      - name: operational_margin
+        description: revenue + shipping_fee - shipping_cost - log_cost  per order
+
+  - name: finance_days
+    description: Shows results aggregated per date for daily finance kpi
+    columns:
+      - name: date_date
+        description: primary key
+        tests:
+          - unique
+          - not_null
+      - name: nb_of_orders
+        description: count of orders id in the day
+      - name: tot_revenue
+        description: Total revenue per day
+      - name: avg_basket
+        description: Avereage Basket per day
+      - name: operational margin
+        description: Operational Margin per the day
+      - name: tot_quantity
+        description: Total quantity of products sold per day
