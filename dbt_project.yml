@@ -44,8 +44,10 @@ models:
       intermediate:
         +materialized: view
       mart:
-        +materialized: view
+        +materialized: table
+        finance: 
+          +schema: gz_raw_data_finance
     circle_parcel:
-      +schema: parcel_dbt_dev
+      +schema: cc_parcel
       staging:
         +materialized: view
