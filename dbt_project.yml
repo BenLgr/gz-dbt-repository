@@ -51,3 +51,7 @@ models:
       +schema: cc_parcel
       staging:
         +materialized: view
+    food_delivery:
+      +schema: fd_delivery
+      staging:
+        +materialized: view

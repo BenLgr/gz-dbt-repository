@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: fd_delivery
+    schema: fvt_food_delivery
+    tables:
+      - name: delivery
+        identifier: food_delivery
+        description: Food delivery gsheet sync with fivetran
+        columns:
+        - name: id_order
+          description: primary key for this table (Integer ID of parcel)
+          tests:
+          - unique
+          - not_null
